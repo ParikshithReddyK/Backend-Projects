@@ -1,4 +1,4 @@
-# Student Employee Management System
+# Campus Workforce Management
 
 ## Overview
 
