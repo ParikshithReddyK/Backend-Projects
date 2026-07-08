@@ -1,0 +1,17 @@
+$kind: http-request
+name: http://localhost:8080/api/students
+description: ""
+url: http://localhost:8080/api/students
+method: POST
+body:
+  type: json
+  content: |-
+    {
+        "firstName": "Parikshith",
+        "lastName": "Reddy",
+        "email": "parikshith@gmail.com",
+        "phone": "9876543210",
+        "department": "CSE",
+        "cgpa": 8.8
+    }
+order: 1783522389611
