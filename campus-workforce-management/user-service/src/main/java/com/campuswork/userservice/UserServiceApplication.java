@@ -1,13 +1,12 @@
-package com.parikshith.cwm;
+package com.campuswork.userservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CampusWorkforceManagementApplication {
+public class UserServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(CampusWorkforceManagementApplication.class, args);
+        SpringApplication.run(UserServiceApplication.class, args);
     }
-
 }
