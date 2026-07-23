@@ -2,6 +2,7 @@ package com.campuswork.userservice.service.impl;
 
 import com.campuswork.userservice.dto.LoginRequest;
 import com.campuswork.userservice.dto.RegisterRequest;
+import com.campuswork.userservice.dto.UpdateProfileRequest;
 import com.campuswork.userservice.dto.UserResponse;
 import com.campuswork.userservice.mapper.UserMapper;
 import com.campuswork.userservice.model.User;
@@ -62,5 +63,26 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll().stream()
                 .map(userMapper::toResponse)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public UserResponse updateProfile(String email, UpdateProfileRequest request) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalStateException("User not found"));
+
+        if (request.getFullName() != null && !request.getFullName().isBlank()) {
+            user.setFullName(request.getFullName());
+        }
+
+        User updatedUser = userRepository.save(user);
+        return userMapper.toResponse(updatedUser);
+    }
+
+    @Override
+    public void deactivateUser(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("User not found with id: " + id));
+        user.setActive(false);
+        userRepository.save(user);
     }
 }

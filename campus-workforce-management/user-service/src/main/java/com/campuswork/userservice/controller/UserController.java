@@ -2,6 +2,7 @@ package com.campuswork.userservice.controller;
 
 import com.campuswork.userservice.dto.LoginRequest;
 import com.campuswork.userservice.dto.RegisterRequest;
+import com.campuswork.userservice.dto.UpdateProfileRequest;
 import com.campuswork.userservice.dto.UserResponse;
 import com.campuswork.userservice.service.UserService;
 import jakarta.validation.Valid;
@@ -41,9 +42,23 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @PutMapping("/me")
+    public ResponseEntity<UserResponse> updateProfile(@Valid @RequestBody UpdateProfileRequest request) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserResponse response = userService.updateProfile(email, request);
+        return ResponseEntity.ok(response);
+    }
+
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/all")
     public ResponseEntity<List<UserResponse>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PatchMapping("/{id}/deactivate")
+    public ResponseEntity<Void> deactivateUser(@PathVariable Long id) {
+        userService.deactivateUser(id);
+        return ResponseEntity.noContent().build();
     }
 }

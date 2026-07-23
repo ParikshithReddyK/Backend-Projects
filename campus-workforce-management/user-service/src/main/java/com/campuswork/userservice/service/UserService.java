@@ -2,6 +2,7 @@ package com.campuswork.userservice.service;
 
 import com.campuswork.userservice.dto.LoginRequest;
 import com.campuswork.userservice.dto.RegisterRequest;
+import com.campuswork.userservice.dto.UpdateProfileRequest;
 import com.campuswork.userservice.dto.UserResponse;
 
 import java.util.List;
@@ -11,4 +12,6 @@ public interface UserService {
     String login(LoginRequest request);
     UserResponse getUserByEmail(String email);
     List<UserResponse> getAllUsers();
+    UserResponse updateProfile(String email, UpdateProfileRequest request);
+    void deactivateUser(Long id);
 }
