@@ -1,5 +1,6 @@
 package com.campuswork.userservice.controller;
 
+import com.campuswork.userservice.dto.LoginRequest;
 import com.campuswork.userservice.dto.RegisterRequest;
 import com.campuswork.userservice.dto.UserResponse;
 import com.campuswork.userservice.service.UserService;
@@ -8,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
@@ -20,5 +23,11 @@ public class UserController {
     public ResponseEntity<UserResponse> register(@Valid @RequestBody RegisterRequest request) {
         UserResponse response = userService.registerUser(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Map<String, String>> login(@Valid @RequestBody LoginRequest request) {
+        String token = userService.login(request);
+        return ResponseEntity.ok(Map.of("token", token));
     }
 }
