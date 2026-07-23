@@ -46,4 +46,11 @@ public class UserServiceImpl implements UserService {
 
         return jwtUtil.generateToken(user.getEmail(), user.getRole().name());
     }
+
+    @Override
+    public UserResponse getUserByEmail(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalStateException("User not found"));
+        return userMapper.toResponse(user);
+    }
 }

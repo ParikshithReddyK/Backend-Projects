@@ -7,4 +7,5 @@ import com.campuswork.userservice.dto.UserResponse;
 public interface UserService {
     UserResponse registerUser(RegisterRequest request);
     String login(LoginRequest request);
+    UserResponse getUserByEmail(String email);
 }
