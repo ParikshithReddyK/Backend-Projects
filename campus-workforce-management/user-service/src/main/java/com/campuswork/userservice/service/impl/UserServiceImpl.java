@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
             throw new BadCredentialsException("Invalid email or password");
         }
 
-        return jwtUtil.generateToken(user.getEmail(), user.getRole().name());
+        return jwtUtil.generateToken(user.getId(), user.getEmail(), user.getRole().name());
     }
 
     @Override

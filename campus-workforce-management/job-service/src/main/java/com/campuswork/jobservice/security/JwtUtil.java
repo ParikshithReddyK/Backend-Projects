@@ -1,4 +1,4 @@
-package com.campuswork.userservice.security;
+package com.campuswork.jobservice.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -15,25 +15,8 @@ public class JwtUtil {
     @Value("${jwt.secret}")
     private String secret;
 
-    @Value("${jwt.expiration-ms}")
-    private long expirationMs;
-
     private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(secret.getBytes());
-    }
-
-    public String generateToken(Long userId, String email, String role) {
-        Date now = new Date();
-        Date expiry = new Date(now.getTime() + expirationMs);
-
-        return Jwts.builder()
-                .subject(email)
-                .claim("userId", userId)
-                .claim("role", role)
-                .issuedAt(now)
-                .expiration(expiry)
-                .signWith(getSigningKey())
-                .compact();
     }
 
     public String extractEmail(String token) {
@@ -42,6 +25,10 @@ public class JwtUtil {
 
     public String extractRole(String token) {
         return extractAllClaims(token).get("role", String.class);
+    }
+
+    public Long extractUserId(String token) {
+        return extractAllClaims(token).get("userId", Long.class);
     }
 
     public boolean isTokenValid(String token) {
