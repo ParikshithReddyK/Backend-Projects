@@ -72,6 +72,7 @@ public class ApplicationServiceImpl implements ApplicationService {
                 .orElseThrow(() -> new IllegalStateException("Application not found"));
 
         JobDto job = jobServiceClient.getJob(application.getJobId(), bearerToken);
+
         if (!isAdmin && !job.getPostedBy().equals(requesterId)) {
             throw new AccessDeniedException("You do not have access to update this application");
         }
@@ -85,6 +86,17 @@ public class ApplicationServiceImpl implements ApplicationService {
 
         application.setStatus(status);
         JobApplication updated = applicationRepository.save(application);
+
         return applicationMapper.toResponse(updated);
+    }
+
+    // ===================== NEW METHOD =====================
+
+    @Override
+    public ApplicationResponse getById(Long id) {
+        JobApplication application = applicationRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("Application not found"));
+
+        return applicationMapper.toResponse(application);
     }
 }

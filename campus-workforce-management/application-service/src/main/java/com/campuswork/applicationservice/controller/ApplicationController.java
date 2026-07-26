@@ -51,11 +51,24 @@ public class ApplicationController {
 
     @PreAuthorize("hasAnyRole('SUPERVISOR', 'HR_MANAGER', 'ADMIN')")
     @PatchMapping("/{id}/status")
-    public ResponseEntity<ApplicationResponse> updateStatus(@PathVariable Long id, @RequestParam String status) {
+    public ResponseEntity<ApplicationResponse> updateStatus(
+            @PathVariable Long id,
+            @RequestParam String status) {
+
         Long requesterId = getCurrentUserId();
         boolean isAdmin = isAdmin();
         String token = extractToken();
-        return ResponseEntity.ok(applicationService.updateStatus(id, status, requesterId, isAdmin, token));
+
+        return ResponseEntity.ok(
+                applicationService.updateStatus(id, status, requesterId, isAdmin, token)
+        );
+    }
+
+    // ===== NEW ENDPOINT FOR SHIFT SERVICE =====
+    @PreAuthorize("hasAnyRole('SUPERVISOR', 'HR_MANAGER', 'ADMIN')")
+    @GetMapping("/{id}")
+    public ResponseEntity<ApplicationResponse> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(applicationService.getById(id));
     }
 
     private Long getCurrentUserId() {
@@ -63,13 +76,17 @@ public class ApplicationController {
     }
 
     private boolean isAdmin() {
-        return SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
+        return SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getAuthorities()
+                .stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
     }
 
     private String extractToken() {
         HttpServletRequest request = ((ServletRequestAttributes)
                 RequestContextHolder.currentRequestAttributes()).getRequest();
+
         String header = request.getHeader("Authorization");
         return header.substring(7);
     }
