@@ -25,6 +25,7 @@
 		<module>job-service</module>
 		<module>application-service</module>
         <module>shift-service</module>
-    </modules>
+		<module>attendance-service</module>
+	</modules>
 
 </project>

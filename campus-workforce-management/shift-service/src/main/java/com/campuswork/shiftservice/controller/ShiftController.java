@@ -37,6 +37,11 @@ public class ShiftController {
         return ResponseEntity.ok(shiftService.getMyShifts(studentId));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ShiftResponse> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(shiftService.getById(id));
+    }
+
     private String extractToken() {
         HttpServletRequest request = ((ServletRequestAttributes)
                 RequestContextHolder.currentRequestAttributes()).getRequest();

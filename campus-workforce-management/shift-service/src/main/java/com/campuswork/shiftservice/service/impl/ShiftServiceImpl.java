@@ -47,4 +47,11 @@ public class ShiftServiceImpl implements ShiftService {
                 .map(shiftMapper::toResponse)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public ShiftResponse getById(Long id) {
+        Shift shift = shiftRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("Shift not found with id: " + id));
+        return shiftMapper.toResponse(shift);
+    }
 }
