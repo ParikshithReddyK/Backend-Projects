@@ -42,6 +42,11 @@ public class AttendanceController {
         return ResponseEntity.ok(attendanceService.getMyAttendance(studentId));
     }
 
+    @GetMapping("/student/{studentId}")
+    public ResponseEntity<List<AttendanceResponse>> getForStudent(@PathVariable Long studentId) {
+        return ResponseEntity.ok(attendanceService.getMyAttendance(studentId));
+    }
+
     private String extractToken() {
         HttpServletRequest request = ((ServletRequestAttributes)
                 RequestContextHolder.currentRequestAttributes()).getRequest();
