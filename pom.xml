@@ -31,6 +31,7 @@
 		<module>performance-service</module>
         <module>certificate-service</module>
         <module>notification-service</module>
+        <module>event-service</module>
     </modules>
 
 </project>
