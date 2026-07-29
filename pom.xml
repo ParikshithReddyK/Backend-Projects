@@ -30,6 +30,7 @@
         <module>leave-service</module>
 		<module>performance-service</module>
         <module>certificate-service</module>
+        <module>notification-service</module>
     </modules>
 
 </project>
