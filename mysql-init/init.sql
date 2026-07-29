@@ -5,3 +5,4 @@ CREATE DATABASE IF NOT EXISTS campus_attendance_db;
 CREATE DATABASE IF NOT EXISTS campus_payroll_db;
 CREATE DATABASE IF NOT EXISTS campus_leave_db;
 CREATE DATABASE IF NOT EXISTS campus_performance_db;
+CREATE DATABASE IF NOT EXISTS campus_certificate_db;

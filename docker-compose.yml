@@ -164,6 +164,22 @@ services:
       mysql:
         condition: service_healthy
 
+  certificate-service:
+    build:
+      context: .
+      dockerfile: certificate-service/Dockerfile
+    ports:
+      - "8089:8089"
+    environment:
+      DB_USERNAME: root
+      DB_PASSWORD: ${DB_PASSWORD}
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/campus_certificate_db
+      JWT_SECRET: ${JWT_SECRET}
+      JOB_SERVICE_URL: http://job-service:8082
+      ATTENDANCE_SERVICE_URL: http://attendance-service:8085
+    depends_on:
+      mysql:
+        condition: service_healthy
 
 volumes:
   mysql-data:

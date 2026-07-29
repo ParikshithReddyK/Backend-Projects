@@ -29,6 +29,7 @@
         <module>payroll-service</module>
         <module>leave-service</module>
 		<module>performance-service</module>
-	</modules>
+        <module>certificate-service</module>
+    </modules>
 
 </project>
