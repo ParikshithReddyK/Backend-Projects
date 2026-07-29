@@ -130,5 +130,40 @@ services:
       - attendance-service
       - payroll-service
 
+
+
+  leave-service:
+    build:
+      context: .
+      dockerfile: leave-service/Dockerfile
+    ports:
+      - "8087:8087"
+    environment:
+      DB_USERNAME: root
+      DB_PASSWORD: arjun8919
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/campus_leave_db
+      JWT_SECRET: 404E635266546A576E5A7234753778214125442A472D4B6150645367566B59
+      JOB_SERVICE_URL: http://job-service:8082
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  performance-service:
+    build:
+      context: .
+      dockerfile: performance-service/Dockerfile
+    ports:
+      - "8088:8088"
+    environment:
+      DB_USERNAME: root
+      DB_PASSWORD: arjun8919
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/campus_performance_db
+      JWT_SECRET: 404E635266546A576E5A7234753778214125442A472D4B6150645367566B59
+      JOB_SERVICE_URL: http://job-service:8082
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+
 volumes:
   mysql-data:
