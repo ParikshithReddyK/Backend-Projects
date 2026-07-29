@@ -1,0 +1,5 @@
+CREATE DATABASE IF NOT EXISTS campus_job_db;
+CREATE DATABASE IF NOT EXISTS campus_application_db;
+CREATE DATABASE IF NOT EXISTS campus_shift_db;
+CREATE DATABASE IF NOT EXISTS campus_attendance_db;
+CREATE DATABASE IF NOT EXISTS campus_payroll_db;

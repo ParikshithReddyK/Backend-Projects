@@ -1,0 +1,134 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: campus-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: arjun8919
+      MYSQL_DATABASE: campus_user_db
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  user-service:
+    build:
+      context: .
+      dockerfile: user-service/Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      DB_USERNAME: root
+      DB_PASSWORD: arjun8919
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/campus_user_db
+      JWT_SECRET: 404E635266546A576E5A7234753778214125442A472D4B6150645367566B59
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  job-service:
+    build:
+      context: .
+      dockerfile: job-service/Dockerfile
+    ports:
+      - "8082:8082"
+    environment:
+      DB_USERNAME: root
+      DB_PASSWORD: arjun8919
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/campus_job_db
+      JWT_SECRET: 404E635266546A576E5A7234753778214125442A472D4B6150645367566B59
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  application-service:
+    build:
+      context: .
+      dockerfile: application-service/Dockerfile
+    ports:
+      - "8083:8083"
+    environment:
+      DB_USERNAME: root
+      DB_PASSWORD: arjun8919
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/campus_application_db
+      JWT_SECRET: 404E635266546A576E5A7234753778214125442A472D4B6150645367566B59
+      JOB_SERVICE_URL: http://job-service:8082
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  shift-service:
+    build:
+      context: .
+      dockerfile: shift-service/Dockerfile
+    ports:
+      - "8084:8084"
+    environment:
+      DB_USERNAME: root
+      DB_PASSWORD: arjun8919
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/campus_shift_db
+      JWT_SECRET: 404E635266546A576E5A7234753778214125442A472D4B6150645367566B59
+      APPLICATION_SERVICE_URL: http://application-service:8083
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  attendance-service:
+    build:
+      context: .
+      dockerfile: attendance-service/Dockerfile
+    ports:
+      - "8085:8085"
+    environment:
+      DB_USERNAME: root
+      DB_PASSWORD: arjun8919
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/campus_attendance_db
+      JWT_SECRET: 404E635266546A576E5A7234753778214125442A472D4B6150645367566B59
+      SHIFT_SERVICE_URL: http://shift-service:8084
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  payroll-service:
+    build:
+      context: .
+      dockerfile: payroll-service/Dockerfile
+    ports:
+      - "8086:8086"
+    environment:
+      DB_USERNAME: root
+      DB_PASSWORD: arjun8919
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/campus_payroll_db
+      JWT_SECRET: 404E635266546A576E5A7234753778214125442A472D4B6150645367566B59
+      JOB_SERVICE_URL: http://job-service:8082
+      ATTENDANCE_SERVICE_URL: http://attendance-service:8085
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: api-gateway/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      USER_SERVICE_URL: http://user-service:8081
+      JOB_SERVICE_URL: http://job-service:8082
+      APPLICATION_SERVICE_URL: http://application-service:8083
+      SHIFT_SERVICE_URL: http://shift-service:8084
+      ATTENDANCE_SERVICE_URL: http://attendance-service:8085
+      PAYROLL_SERVICE_URL: http://payroll-service:8086
+    depends_on:
+      - user-service
+      - job-service
+      - application-service
+      - shift-service
+      - attendance-service
+      - payroll-service
+
+volumes:
+  mysql-data:
