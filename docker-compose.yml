@@ -244,5 +244,35 @@ services:
         condition: service_healthy
 
 
+  document-service:
+    build:
+      context: .
+      dockerfile: document-service/Dockerfile
+    ports:
+      - "8094:8094"
+    environment:
+      DB_USERNAME: root
+      DB_PASSWORD: arjun8919
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/campus_document_db
+      JWT_SECRET: 404E635266546A576E5A7234753778214125442A472D4B6150645367566B59
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+
+  analytics-service:
+    build:
+      context: .
+      dockerfile: analytics-service/Dockerfile
+    ports:
+      - "8095:8095"
+    environment:
+      JWT_SECRET: 404E635266546A576E5A7234753778214125442A472D4B6150645367566B59
+      JOB_SERVICE_URL: http://job-service:8082
+      APPLICATION_SERVICE_URL: http://application-service:8083
+      ATTENDANCE_SERVICE_URL: http://attendance-service:8085
+      PAYROLL_SERVICE_URL: http://payroll-service:8086
+
+
 volumes:
   mysql-data:
