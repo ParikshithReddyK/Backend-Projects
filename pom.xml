@@ -32,6 +32,8 @@
         <module>certificate-service</module>
         <module>notification-service</module>
         <module>event-service</module>
-    </modules>
+        <module>equipment-service</module>
+		<module>training-service</module>
+	</modules>
 
 </project>

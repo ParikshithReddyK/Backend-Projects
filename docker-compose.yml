@@ -213,5 +213,36 @@ services:
         condition: service_healthy
 
 
+  equipment-service:
+    build:
+      context: .
+      dockerfile: equipment-service/Dockerfile
+    ports:
+      - "8092:8092"
+    environment:
+      DB_USERNAME: root
+      DB_PASSWORD: arjun8919
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/campus_equipment_db
+      JWT_SECRET: 404E635266546A576E5A7234753778214125442A472D4B6150645367566B59
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  training-service:
+    build:
+      context: .
+      dockerfile: training-service/Dockerfile
+    ports:
+      - "8093:8093"
+    environment:
+      DB_USERNAME: root
+      DB_PASSWORD: arjun8919
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/campus_training_db
+      JWT_SECRET: 404E635266546A576E5A7234753778214125442A472D4B6150645367566B59
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+
 volumes:
   mysql-data:

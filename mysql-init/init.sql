@@ -8,3 +8,5 @@ CREATE DATABASE IF NOT EXISTS campus_performance_db;
 CREATE DATABASE IF NOT EXISTS campus_certificate_db;
 CREATE DATABASE IF NOT EXISTS campus_notification_db;
 CREATE DATABASE IF NOT EXISTS campus_event_db;
+CREATE DATABASE IF NOT EXISTS campus_equipment_db;
+CREATE DATABASE IF NOT EXISTS campus_training_db;
